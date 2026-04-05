@@ -121,8 +121,7 @@ h2 {
 }
 
 .primary-button,
-.secondary-button,
-.touch-button {
+.secondary-button {
   border: 0;
   border-radius: 999px;
   cursor: pointer;
@@ -156,7 +155,7 @@ h2 {
 .game-shell {
   position: relative;
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto auto 1fr;
   min-height: 100vh;
   padding: 16px;
   gap: 12px;
@@ -680,57 +679,6 @@ h2 {
     10px 38px 0 -30px #52784f;
 }
 
-.touch-controls {
-  display: none;
-  position: absolute;
-  left: 14px;
-  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
-  z-index: 6;
-  grid-template-columns: repeat(3, 62px);
-  grid-template-rows: repeat(2, 56px);
-  gap: 8px;
-  justify-content: center;
-}
-
-.touch-button {
-  width: 62px;
-  height: 56px;
-  font-size: 1.2rem;
-  line-height: 1;
-  font-weight: 700;
-  color: var(--ink);
-  background: rgba(249, 246, 238, 0.76);
-  box-shadow: 0 10px 20px rgba(67, 95, 64, 0.12);
-  border: 1px solid rgba(91, 126, 82, 0.16);
-  backdrop-filter: blur(6px);
-  touch-action: manipulation;
-  user-select: none;
-}
-
-.touch-button:active {
-  background: rgba(245, 242, 233, 0.9);
-  transform: scale(0.98);
-}
-
-.touch-up {
-  grid-column: 2;
-}
-
-.touch-left {
-  grid-column: 1;
-  grid-row: 2;
-}
-
-.touch-right {
-  grid-column: 3;
-  grid-row: 2;
-}
-
-.touch-down {
-  grid-column: 2;
-  grid-row: 2;
-}
-
 .falling-flowers {
   position: absolute;
   inset: 0;
@@ -853,9 +801,5 @@ h2 {
 
   .screen-card {
     padding: 26px 20px;
-  }
-
-  .touch-controls {
-    display: grid;
   }
 }

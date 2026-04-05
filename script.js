@@ -13,7 +13,6 @@ const gameView = document.getElementById("gameView");
 const startButton = document.getElementById("startButton");
 const restartButton = document.getElementById("restartButton");
 const playAgainButton = document.getElementById("playAgainButton");
-const touchButtons = Array.from(document.querySelectorAll(".touch-button"));
 
 const flowers = Array.from(document.querySelectorAll(".flower"));
 
@@ -32,7 +31,12 @@ const state = {
   playerY: 240,
   speed: 3,
   foundFlowers: new Set(),
-  pressedKeys: new Set()
+  pressedKeys: new Set(),
+  touchVectorX: 0,
+  touchVectorY: 0,
+  activePointerId: null,
+  dragAnchorX: 0,
+  dragAnchorY: 0
 };
 
 const worldSize = {
@@ -142,6 +146,11 @@ function movePlayer() {
     moveX += state.speed;
   }
 
+  if (state.activePointerId !== null) {
+    moveX += state.touchVectorX * state.speed;
+    moveY += state.touchVectorY * state.speed;
+  }
+
   const diagonalMove = moveX !== 0 && moveY !== 0;
   const speedMultiplier = diagonalMove ? Math.SQRT1_2 : 1;
   const nextX = Math.max(68, Math.min(state.playerX + moveX * speedMultiplier, worldSize.width - 68));
@@ -203,27 +212,55 @@ function handleKeyUp(event) {
   state.pressedKeys.delete(event.key.toLowerCase());
 }
 
-function setTouchKey(key, isPressed) {
-  if (isPressed) {
-    state.pressedKeys.add(key);
+function updateTouchVector(clientX, clientY) {
+  const deltaX = clientX - state.dragAnchorX;
+  const deltaY = clientY - state.dragAnchorY;
+  const maxDistance = 64;
+  const distance = Math.hypot(deltaX, deltaY);
+
+  if (distance < 6) {
+    state.touchVectorX = 0;
+    state.touchVectorY = 0;
     return;
   }
 
-  state.pressedKeys.delete(key);
+  const scale = distance > maxDistance ? maxDistance / distance : 1;
+  state.touchVectorX = (deltaX * scale) / maxDistance;
+  state.touchVectorY = (deltaY * scale) / maxDistance;
 }
 
-touchButtons.forEach((button) => {
-  const key = button.dataset.key;
+function handlePointerDown(event) {
+  if (event.pointerType === "mouse") {
+    return;
+  }
 
-  button.addEventListener("pointerdown", (event) => {
-    event.preventDefault();
-    setTouchKey(key, true);
-  });
+  event.preventDefault();
+  state.activePointerId = event.pointerId;
+  state.dragAnchorX = event.clientX;
+  state.dragAnchorY = event.clientY;
+  state.touchVectorX = 0;
+  state.touchVectorY = 0;
+  gameView.setPointerCapture(event.pointerId);
+}
 
-  button.addEventListener("pointerup", () => setTouchKey(key, false));
-  button.addEventListener("pointercancel", () => setTouchKey(key, false));
-  button.addEventListener("pointerleave", () => setTouchKey(key, false));
-});
+function handlePointerMove(event) {
+  if (event.pointerId !== state.activePointerId) {
+    return;
+  }
+
+  event.preventDefault();
+  updateTouchVector(event.clientX, event.clientY);
+}
+
+function clearPointerInput(event) {
+  if (event.pointerId !== state.activePointerId) {
+    return;
+  }
+
+  state.activePointerId = null;
+  state.touchVectorX = 0;
+  state.touchVectorY = 0;
+}
 
 startButton.addEventListener("click", startGame);
 restartButton.addEventListener("click", restartGame);
@@ -231,6 +268,10 @@ playAgainButton.addEventListener("click", restartGame);
 window.addEventListener("keydown", handleKeyDown);
 window.addEventListener("keyup", handleKeyUp);
 window.addEventListener("resize", centerCameraOnPlayer);
+gameView.addEventListener("pointerdown", handlePointerDown);
+gameView.addEventListener("pointermove", handlePointerMove);
+gameView.addEventListener("pointerup", clearPointerInput);
+gameView.addEventListener("pointercancel", clearPointerInput);
 
 updatePlayerPosition();
 updateFlowerCounter();
