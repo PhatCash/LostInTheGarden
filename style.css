@@ -682,23 +682,34 @@ h2 {
 
 .touch-controls {
   display: none;
-  grid-template-columns: repeat(3, 72px);
-  grid-template-rows: repeat(2, 64px);
-  gap: 10px;
+  position: absolute;
+  left: 14px;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  z-index: 6;
+  grid-template-columns: repeat(3, 62px);
+  grid-template-rows: repeat(2, 56px);
+  gap: 8px;
   justify-content: center;
-  width: min(920px, 100%);
-  margin: 0 auto;
-  padding-bottom: env(safe-area-inset-bottom, 0);
 }
 
 .touch-button {
-  font-size: 1.4rem;
+  width: 62px;
+  height: 56px;
+  font-size: 1.2rem;
+  line-height: 1;
   font-weight: 700;
   color: var(--ink);
-  background: rgba(249, 246, 238, 0.94);
-  box-shadow: 0 10px 20px rgba(67, 95, 64, 0.14);
+  background: rgba(249, 246, 238, 0.76);
+  box-shadow: 0 10px 20px rgba(67, 95, 64, 0.12);
+  border: 1px solid rgba(91, 126, 82, 0.16);
+  backdrop-filter: blur(6px);
   touch-action: manipulation;
   user-select: none;
+}
+
+.touch-button:active {
+  background: rgba(245, 242, 233, 0.9);
+  transform: scale(0.98);
 }
 
 .touch-up {
