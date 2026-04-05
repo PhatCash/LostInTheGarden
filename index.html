@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Lost in the Garden</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="screen start-screen" id="startScreen">
+      <div class="screen-card">
+        <h1>Lost in the Garden</h1>
+        <p class="intro-text">
+          Wander through a smaller garden, gather each bloom, and uncover a trail of sweet little
+          notes waiting for you.
+        </p>
+        <div class="controls-copy">
+          <p><strong>Move:</strong> Arrow keys, WASD, or the touch pad</p>
+          <p><strong>Goal:</strong> Find all 4 flowers and reach the final garden message</p>
+        </div>
+        <button class="primary-button" id="startButton" type="button">Begin wandering</button>
+      </div>
+    </section>
+
+    <section class="game-shell hidden" id="gameShell" aria-label="Garden play area">
+      <header class="hud">
+        <div class="hud-copy">
+          <p class="hud-label">Flowers Found</p>
+          <p class="hud-value" id="flowerCount">0 / 4</p>
+        </div>
+        <div class="progress-group" aria-label="Flower progress">
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <p class="progress-text" id="progressText">0%</p>
+        </div>
+        <button class="secondary-button" id="restartButton" type="button">Restart</button>
+      </header>
+
+      <section class="message-panel" id="messagePanel" aria-live="polite">
+        <p class="message-title">Garden Note</p>
+        <p class="message-text" id="messageText">Take a slow breath and follow the flowers.</p>
+      </section>
+
+      <section class="game-view" id="gameView">
+        <div class="world" id="world">
+          <div class="sky-glow sky-glow-left"></div>
+          <div class="sky-glow sky-glow-right"></div>
+
+          <div class="section-label label-one">Daisy Gate</div>
+          <div class="section-label label-two">Rose Turn</div>
+          <div class="section-label label-three">Moon Arbor</div>
+
+          <div class="path path-horizontal gate-path"></div>
+          <div class="path path-vertical center-rise"></div>
+          <div class="path path-horizontal lower-path"></div>
+          <div class="path path-vertical east-walk"></div>
+
+          <div class="hedge hedge-top"></div>
+          <div class="hedge hedge-left"></div>
+          <div class="hedge hedge-right"></div>
+          <div class="hedge hedge-bottom"></div>
+          <div class="hedge hedge-cluster hedge-cluster-one"></div>
+          <div class="hedge hedge-cluster hedge-cluster-two"></div>
+          <div class="hedge hedge-cluster hedge-cluster-three"></div>
+
+          <div class="pond pond-east"></div>
+          <div class="bench bench-center"></div>
+          <div class="gazebo"></div>
+          <div class="flower-bed flower-bed-one"></div>
+          <div class="flower-bed flower-bed-two"></div>
+
+          <div class="flower flower-rose" data-flower-id="0" style="left: 180px; top: 205px;"></div>
+          <div class="flower flower-daisy" data-flower-id="1" style="left: 725px; top: 180px;"></div>
+          <div class="flower flower-cornflower" data-flower-id="2" style="left: 470px; top: 640px;"></div>
+          <div class="flower flower-lily" data-flower-id="3" style="left: 1080px; top: 700px;"></div>
+
+          <div class="player girl-player" id="player" aria-label="Player character"></div>
+        </div>
+      </section>
+
+      <section class="touch-controls" aria-label="Touch controls">
+        <button class="touch-button touch-up" type="button" data-key="arrowup" aria-label="Move up">▲</button>
+        <button class="touch-button touch-left" type="button" data-key="arrowleft" aria-label="Move left">◀</button>
+        <button class="touch-button touch-right" type="button" data-key="arrowright" aria-label="Move right">▶</button>
+        <button class="touch-button touch-down" type="button" data-key="arrowdown" aria-label="Move down">▼</button>
+      </section>
+    </section>
+
+    <section class="screen ending-screen hidden" id="endingScreen" aria-label="Ending screen">
+      <div class="falling-flowers" aria-hidden="true">
+        <span class="falling-flower ff-1"></span>
+        <span class="falling-flower ff-2"></span>
+        <span class="falling-flower ff-3"></span>
+        <span class="falling-flower ff-4"></span>
+        <span class="falling-flower ff-5"></span>
+        <span class="falling-flower ff-6"></span>
+        <span class="falling-flower ff-7"></span>
+        <span class="falling-flower ff-8"></span>
+        <span class="falling-flower ff-9"></span>
+        <span class="falling-flower ff-10"></span>
+        <span class="falling-flower ff-11"></span>
+        <span class="falling-flower ff-12"></span>
+        <span class="falling-flower ff-13"></span>
+        <span class="falling-flower ff-14"></span>
+        <span class="falling-flower ff-15"></span>
+        <span class="falling-flower ff-16"></span>
+      </div>
+      <div class="screen-card ending-card">
+        <p class="eyebrow">The garden opens</p>
+        <h2>Every flower found</h2>
+        <p class="ending-text" id="endingText">
+          The whole garden glows a little softer now, as if every bloom had been saving its warmth
+          for this exact moment.
+        </p>
+        <button class="primary-button" id="playAgainButton" type="button">Walk through again</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
